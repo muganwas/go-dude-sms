@@ -6,4 +6,7 @@ module.exports = function(app){
     app.route('/api/v1/sendText')
         .get(details.sendText);
 
+    app.route('/api/v1/getToken')
+        .get(details.getToken);
+
 }

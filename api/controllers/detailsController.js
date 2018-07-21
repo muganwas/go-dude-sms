@@ -35,10 +35,11 @@ exports.sendText = function (req, res){
     let oldFormat = req.query.number;
     let firstName = req.query.fname;
     let lastName = req.query.lname;
-    let phoneNumber = oldFormat.replace("0", "+");
+    let number = oldFormat.replace("0", "");
+    let phoneNumber = "+33" + number;
     let from = '+33644641136';
     let code = _random(5);
-    let info = { firstName, lastName, lastName, code }
+    let info = { firstName, lastName, phoneNumber, code }
     let saved = saveCode(info);
     console.log(saved);
     //res.json({"rand ": message});
@@ -50,4 +51,13 @@ exports.sendText = function (req, res){
             res.json({"rand": message.sid, "code": code});
             console.log("SID: " + message.sid)
         }).done();
+}
+
+exports.getToken = function (req, res){
+    let phoneNumber = req.query.number;
+    Details.findOne({phoneNumber:phoneNumber}, function(err, detail){
+        if(err)
+            res.send(err)
+        res.json(detail);
+    });
 }
