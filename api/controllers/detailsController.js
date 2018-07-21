@@ -54,7 +54,9 @@ exports.sendText = function (req, res){
 }
 
 exports.getToken = function (req, res){
-    let phoneNumber = req.query.number;
+    let oldFormat = req.query.number;
+    let number = oldFormat.replace("0", "");
+    let phoneNumber = "+33" + number;
     Details.findOne({phoneNumber:phoneNumber}, function(err, detail){
         if(err)
             res.send(err)
