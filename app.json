@@ -1,0 +1,33 @@
+{
+  "name": "danapay-web-app-server",
+  "scripts": {
+  },
+  "env": {
+    "DB_CON_URL": {
+      "required": true
+    },
+    "DO_WEB_PAYMENT": {
+      "required": true
+    },
+    "ENV": {
+      "required": true
+    },
+    "PORT": {
+      "required": true
+    },
+    "TRANSFER_FUNDS": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
