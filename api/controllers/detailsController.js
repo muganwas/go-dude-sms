@@ -50,6 +50,9 @@ exports.sendText = function (req, res){
        }).then(function(message){
             res.json({"rand": message.sid, "code": code});
             console.log("SID: " + message.sid)
+        }).catch((err)=>{
+            //throw err;
+            res.json(err);
         }).done();
 }
 
