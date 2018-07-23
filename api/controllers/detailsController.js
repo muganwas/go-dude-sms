@@ -65,15 +65,11 @@ exports.sendText = function (req, res){
             res.json({"rand": message.sid, "code": code});
             console.log("SID: " + message.sid);
         }).catch((err)=>{
-            //throw err;
             res.json(err);
         }).done();
     }).catch((err)=>{
         console.log(err);
-    })
-    //let saved = saveCode(info);
-    //console.log(saved);
-    //res.json({"rand ": message});
+    });
 }
 
 exports.getToken = function (req, res){
