@@ -22,13 +22,26 @@ function _random (howMany){
     return value.join('');
 }
 
-function saveCode (info){
-    var new_transaction = new Details(info);
-    new_transaction.save(function(err, detail){
-        if(err)
-            return err;
-        return "Info successfully saved";
+function updateDetails(number, info){
+    return new Promise ((resolve, reject) => {
+        Details.findOneAndUpdate(number, info, {new:true}, function(err, detail){
+            if(err){
+                reject(err);
+            }
+            resolve(detail);
+        });
     });
+}
+
+function saveCode (info){
+    return new Promise((resolve, reject)=>{
+        var new_transaction = new Details(info);
+        new_transaction.save(function(err, detail){
+            if(err)
+                reject(err);
+            resolve("Info successfully saved");
+        });
+    })
 }
 
 exports.sendText = function (req, res){
@@ -40,20 +53,45 @@ exports.sendText = function (req, res){
     let from = '+33644641136';
     let code = _random(5);
     let info = { firstName, lastName, phoneNumber, code }
-    let saved = saveCode(info);
-    console.log(saved);
-    //res.json({"rand ": message});
-    client.messages.create({
+
+    //update if the number already exists
+    updateDetails(phoneNumber, info).then((res)=>{
+        console.log(res);
+        client.messages.create({
             body: 'Code: ' + code,
             from: from,
             to: phoneNumber
-       }).then(function(message){
+        }).then(function(message){
             res.json({"rand": message.sid, "code": code});
-            console.log("SID: " + message.sid)
+            console.log("SID: " + message.sid);
         }).catch((err)=>{
             //throw err;
             res.json(err);
         }).done();
+    }, (err)=>{
+        console.log(err);
+        saveCode(info).then((res)=>{
+            console.log(res);
+            client.messages.create({
+                body: 'Code: ' + code,
+                from: from,
+                to: phoneNumber
+            }).then(function(message){
+                res.json({"rand": message.sid, "code": code});
+                console.log("SID: " + message.sid);
+            }).catch((err)=>{
+                //throw err;
+                res.json(err);
+            }).done();
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }).catch((err)=>{
+        console.log(err);
+    })
+    //let saved = saveCode(info);
+    //console.log(saved);
+    //res.json({"rand ": message});
 }
 
 exports.getToken = function (req, res){
