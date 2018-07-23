@@ -55,8 +55,8 @@ exports.sendText = function (req, res){
     let info = { firstName, lastName, phoneNumber, code }
 
     //update if the number already exists
-    saveDetails(phoneNumber, info).then((res)=>{
-        console.log(res);
+    saveDetails(phoneNumber, info).then((response)=>{
+        console.log(response);
         client.messages.create({
             body: 'Code: ' + code,
             from: from,
