@@ -22,13 +22,13 @@ function _random (howMany){
     return value.join('');
 }
 
-function updateDetails(number, info){
+function saveDetails(number, info){
     return new Promise ((resolve, reject) => {
-        Details.findOneAndUpdate(number, info, {new:true}, function(err, detail){
+        Details.findOneAndUpdate({phoneNumber: number}, info, {upsert: true}, function(err, detail){
             if(err){
                 reject(err);
             }
-            resolve(detail);
+            resolve("success");
         });
     });
 }
@@ -55,7 +55,7 @@ exports.sendText = function (req, res){
     let info = { firstName, lastName, phoneNumber, code }
 
     //update if the number already exists
-    updateDetails(phoneNumber, info).then((res)=>{
+    saveDetails(phoneNumber, info).then((res)=>{
         console.log(res);
         client.messages.create({
             body: 'Code: ' + code,
@@ -68,24 +68,6 @@ exports.sendText = function (req, res){
             //throw err;
             res.json(err);
         }).done();
-    }, (err)=>{
-        console.log(err);
-        saveCode(info).then((res)=>{
-            console.log(res);
-            client.messages.create({
-                body: 'Code: ' + code,
-                from: from,
-                to: phoneNumber
-            }).then(function(message){
-                res.json({"rand": message.sid, "code": code});
-                console.log("SID: " + message.sid);
-            }).catch((err)=>{
-                //throw err;
-                res.json(err);
-            }).done();
-        }).catch((err)=>{
-            console.log(err);
-        });
     }).catch((err)=>{
         console.log(err);
     })
