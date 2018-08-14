@@ -74,6 +74,7 @@ exports.sendText = function (req, res){
 
 exports.sendAlert = function (req, res){
     let phoneNumber = req.query.number;
+    let link = req.query.link;
     let from = '+33644641136';
     let message = 'You received a message on Godude, log in to view it.'
 
