@@ -72,6 +72,23 @@ exports.sendText = function (req, res){
     });
 }
 
+exports.sendAlert = function (req, res){
+    let phoneNumber = req.query.number;
+    let from = '+33644641136';
+    let message = 'You received a message on Godude, log in to view it.'
+
+    client.messages.create({
+        body: message,
+        from: from,
+        to: phoneNumber
+    }).then(function(rez){
+        res.json({"response": rez, "Sent Message": message });
+        console.log("SID: " + rez.sid);
+    }).catch((err)=>{
+        res.json(err);
+    }).done();
+}
+
 exports.getToken = function (req, res){
     let oldFormat = req.query.number;
     let number = oldFormat.replace("0", "");
