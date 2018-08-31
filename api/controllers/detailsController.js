@@ -76,7 +76,7 @@ exports.sendAlert = function (req, res){
     let phoneNumber = req.query.number;
     let link = req.query.link;
     let from = '+33644641136';
-    let message = 'You received a message on Godude, follow this link to view message: ' + link;
+    let message = 'Vous avez reçu une demande de réservation sur Godude, cliquez sur le lien ci-dessous pour visualiser la demande: ' + link;
 
     client.messages.create({
         body: message,
