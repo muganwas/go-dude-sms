@@ -1,5 +1,5 @@
 {
-  "name": "danapaytransactions",
+  "name": "godude-sms-api",
   "version": "1.0.0",
   "description": "a RESTful API server",
   "main": "index.js",
@@ -14,9 +14,9 @@
   "author": "Muganwas",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^1.17.4"
   },
   "dependencies": {
+    "nodemon": "^1.17.4",
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
