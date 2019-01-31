@@ -73,10 +73,14 @@ exports.sendText = function (req, res){
 }
 
 exports.sendAlert = function (req, res){
-    let phoneNumber = req.query.number;
+    let oldFormat = req.query.number;
+    let number = oldFormat.replace("0", "");
+    let phoneNumber = "+33" + number;
     let link = req.query.link;
     let from = "+" + process.env.TWILIO_FROM;
     let message = 'Vous avez reçu une demande de réservation sur Godude, cliquez sur le lien ci-dessous pour visualiser la demande: ' + link;
+
+    console.log(phoneNumber)
 
     client.messages.create({
         body: message,
