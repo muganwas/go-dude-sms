@@ -110,7 +110,7 @@ exports.getToken = function (req, res){
         phoneNumber = "+33" + number;
     }
     
-    Details.findOne({phoneNumber:phoneNumber}, function(err, detail){
+    Details.findOne({phoneNumber}, function(err, detail){
         if(err)
             res.send(err)
         res.json(detail);
