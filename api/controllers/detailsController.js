@@ -45,11 +45,15 @@ function saveCode (info){
 }
 
 exports.sendText = function (req, res){
-    let oldFormat = req.query.number;
+    let phoneNumber = req.query.number;
     let firstName = req.query.fname;
     let lastName = req.query.lname;
-    let number = oldFormat.replace("0", "");
-    let phoneNumber = "+33" + number;
+
+    if(phoneNumber.length < 11){
+        let number = phoneNumber.replace("0", "");
+        phoneNumber = "+33" + number;
+    }
+
     let from = "+" + process.env.TWILIO_FROM;
     let code = _random(5);
     let info = { firstName, lastName, phoneNumber, code }
@@ -73,9 +77,13 @@ exports.sendText = function (req, res){
 }
 
 exports.sendAlert = function (req, res){
-    let oldFormat = req.query.number;
-    let number = oldFormat.replace("0", "");
-    let phoneNumber = "+33" + number;
+    let phoneNumber = req.query.number;
+
+    if(phoneNumber.length < 11){
+        let number = phoneNumber.replace("0", "");
+        phoneNumber = "+33" + number;
+    }
+    
     let link = req.query.link;
     let from = "+" + process.env.TWILIO_FROM;
     let message = 'Vous avez reçu une demande de réservation sur Godude, cliquez sur le lien ci-dessous pour visualiser la demande: ' + link;
@@ -95,9 +103,13 @@ exports.sendAlert = function (req, res){
 }
 
 exports.getToken = function (req, res){
-    let oldFormat = req.query.number;
-    let number = oldFormat.replace("0", "");
-    let phoneNumber = "+33" + number;
+    let phoneNumber = req.query.number;
+
+    if(phoneNumber.length < 11){
+        let number = phoneNumber.replace("0", "");
+        phoneNumber = "+33" + number;
+    }
+    
     Details.findOne({phoneNumber:phoneNumber}, function(err, detail){
         if(err)
             res.send(err)
