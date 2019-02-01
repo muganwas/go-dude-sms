@@ -67,7 +67,8 @@ exports.sendText = function (req, res){
             to: phoneNumber
         }).then(function(message){
             res.json({"rand": message.sid, "code": code});
-            console.log("SID: " + message.sid);
+            console.log(phoneNumber)
+            console.log(message);
         }).catch((err)=>{
             res.json(err);
         }).done();
