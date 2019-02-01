@@ -60,7 +60,6 @@ exports.sendText = function (req, res){
 
     //update if the number already exists
     saveDetails(phoneNumber, info).then((response)=>{
-        console.log(response);
         client.messages.create({
             body: 'Code: ' + code,
             from: from,
@@ -68,7 +67,7 @@ exports.sendText = function (req, res){
         }).then(function(message){
             res.json({"rand": message.sid, "code": code});
             console.log(phoneNumber)
-            console.log(message);
+            console.log(message.status);
         }).catch((err)=>{
             res.json(err);
         }).done();
